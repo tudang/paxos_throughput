@@ -13,7 +13,7 @@ for (i in args) {
 	'pkt_outs', 'pkt_ins', 'pkts', 'pkt_in', 'pkt_out', 
 	'err_outs', 'err_ins', 'err_in', 'err_out'))
 	
-	t = subset(d, itf=='enp1s0', select=c(tmp,b_outs,b_ins,bs,pkt_ins, pkt_outs, pkts))
+	t = subset(d, itf=='eth0', select=c(tmp,b_outs,b_ins,bs,pkt_ins, pkt_outs, pkts))
 
 	name <- strsplit(i, "[.]")
 	name <- name[[1]][1]
@@ -34,14 +34,14 @@ coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + 
 expand_limits(y=0) + 
-xlab("Time") + ggtitle("Number of bytes out")
+xlab("Time") + ylab("Mbps") + ggtitle("Number of bytes out")
 
 ggplot(data, aes(x=tmp, y=b_ins, color=role)) + 
 coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + 
 expand_limits(y=0) + 
-xlab("Time") + ggtitle("Number of bytes in")
+xlab("Time") + ylab("Mbps") + ggtitle("Number of bytes in")
 
 
 ggplot(data, aes(x=tmp, y=Mbps, color=role)) + 
