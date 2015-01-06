@@ -30,7 +30,6 @@ for (i in args) {
 ggplot(data=df, aes(x=time, y=mean_lat, group=client, 
                     colour=factor(client))) + 
 geom_line() + 
-geom_point() +
 ylab("latency (ms)")
 
 dev.off()

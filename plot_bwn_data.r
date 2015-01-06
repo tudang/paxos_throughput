@@ -34,14 +34,14 @@ coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + 
 expand_limits(y=0) + 
-xlab("Time") + ylab("Mbps") + ggtitle("Number of bytes out")
+xlab("Time") + ylab("Mbps") + ggtitle("Sending Rate")
 
 ggplot(data, aes(x=tmp, y=b_ins, color=role)) + 
 coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + 
 expand_limits(y=0) + 
-xlab("Time") + ylab("Mbps") + ggtitle("Number of bytes in")
+xlab("Time") + ylab("Mbps") + ggtitle("Receiving Rate")
 
 
 ggplot(data, aes(x=tmp, y=Mbps, color=role)) + 
@@ -49,24 +49,24 @@ coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + 
 expand_limits(y=0) + 
-xlab("Time") + ggtitle("Total bytes")
+xlab("Time") + ggtitle("Aggregate Throughput")
 
 ggplot(data, aes(x=tmp, y=pkt_ins, color=role)) + 
 coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + xlab("Time") + 
-ggtitle("Number of Packets in")
+ggtitle("Number of Packets Receiving")
 
 ggplot(data, aes(x=tmp, y=pkt_outs, color=role)) + 
 coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + xlab("Time") + 
-ggtitle("Number of Packets out")
+ggtitle("Number of Packets Sending")
 
 ggplot(data, aes(x=tmp, y=pkts, color=role)) + 
 coord_cartesian() +
 scale_y_continuous() + 
 geom_line() + xlab("Time") + 
-ggtitle("Number of Packets")
+ggtitle("Aggregate Number of Packets")
 
 dev.off()
