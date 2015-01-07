@@ -23,9 +23,8 @@ for (i in args) {
   df <- rbind(df, c1stat)
 }
 
-ggplot(data=df, aes(x=time, y=mean_lat, group=outstanding, colour=factor(outstanding))) + 
-geom_line() + 
-geom_point() +
-ylab("latency (ms)")
+p <- ggplot(data=df, aes(x=time, group=outstanding, colour=factor(outstanding))) 
+p + geom_line(aes(y=mean_lat)) + ylab("latency (ms)") + ggtitle("5 learners, pkt-size 8KB")
+p + geom_line(aes(y=count)) + ylab("value/sec") + ggtitle("5 learners, pkt-size 8KB")
 
 dev.off()
