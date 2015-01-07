@@ -1,5 +1,7 @@
 # run command
 # Rscript plot_client_data.r [input1] [input2] ...
+# This code plots the latency figure, value/sec using output from libpaxos
+# client. Input file name convention "<replica-number>-*.csv
 # load libraries
 library("ggplot2")
 library("plyr")

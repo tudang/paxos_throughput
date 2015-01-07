@@ -1,5 +1,7 @@
 # run command
 # Rscript latency-size.r [input1] [input2] ...
+# This code uses to plot the latency of a client running the experiments
+# while varying the packet-size
 # load libraries
 library("ggplot2")
 library("plyr")

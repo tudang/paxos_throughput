@@ -1,3 +1,7 @@
+# This code plots the throughput and number of packets
+# of a client running the experiments with variable 
+# number of learners.
+
 # load libraries
 library("ggplot2")
 library("plyr")

@@ -1,5 +1,7 @@
 # run command
 # Rscript plot_client_data.r [input1] [input2] ...
+# This code uses to plot the latency of experiments with various number
+# of clients. The input files are provided in client id sequence 
 # load libraries
 library("ggplot2")
 library("plyr")

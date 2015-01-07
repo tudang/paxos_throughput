@@ -1,3 +1,5 @@
+# This code plots the throughput, number of packets
+# over the time line.
 # load libraries
 library("ggplot2")
 library("plyr")

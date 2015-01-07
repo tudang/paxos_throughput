@@ -1,5 +1,7 @@
 # run command
 # Rscript latency-oustanding.r [input1] [input2]
+# This code uses to plot the figure of a client run the experiment with
+# variable of number of outstanding. 
 # load libraries
 library("ggplot2")
 library("plyr")
