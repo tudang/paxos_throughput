@@ -6,7 +6,7 @@ library("plyr")
 
 args<-commandArgs(TRUE)
 
-data <- data.frame(tmp=numeric(), itf=character(), b_outs=numeric(), b_ins=numeric(), 
+data <- data.frame(proto=character(), tmp=numeric(), itf=character(), b_outs=numeric(), b_ins=numeric(), 
 		bs=numeric(), pkts=numeric(), role=character(), Mbps=numeric())
 
 for (i in args) {
@@ -17,8 +17,10 @@ for (i in args) {
 	
 	t = subset(d, itf=='eth0', select=c(tmp,b_outs,b_ins,bs,pkt_ins, pkt_outs, pkts))
 
-	name <- strsplit(i, "[.]")
-	name <- name[[1]][1]
+	fname <- strsplit(i, "[.]")
+	name <- fname[[1]][1]
+	proto <- fname[[1]][2]
+        t$proto <- proto
 	t$role <- name
 	t$Mbps <- t$bs*8 / 2^20
 	t$b_outs <- t$b_outs*8 / 2^20
@@ -31,44 +33,25 @@ for (i in args) {
 
 pdf("rplot.pdf")
 
-ggplot(data, aes(x=tmp, y=b_outs, color=role)) + 
-coord_cartesian() +
-scale_y_continuous() + 
-geom_line() + 
-expand_limits(y=0) + 
-xlab("Time") + ylab("Mbps") + ggtitle("Sending Rate")
+p <- ggplot(data) + coord_cartesian() + scale_y_continuous() + facet_grid(. ~ proto)  + expand_limits(y=0) + xlab("Time")
 
-ggplot(data, aes(x=tmp, y=b_ins, color=role)) + 
-coord_cartesian() +
-scale_y_continuous() + 
-geom_line() + 
-expand_limits(y=0) + 
-xlab("Time") + ylab("Mbps") + ggtitle("Receiving Rate")
+p + geom_line(aes(x=tmp, y=b_outs, color=role)) + 
+ylab("Mbps") + ggtitle("Sending Rate")
+
+p + geom_line(aes(x=tmp, y=b_ins, color=role)) + 
+ylab("Mbps") + ggtitle("Receiving Rate")
 
 
-ggplot(data, aes(x=tmp, y=Mbps, color=role)) + 
-coord_cartesian() +
-scale_y_continuous() + 
-geom_line() + 
-expand_limits(y=0) + 
-xlab("Time") + ggtitle("Aggregate Throughput")
+p + geom_line(aes(x=tmp, y=Mbps, color=role)) + 
+ylab("Mbps") + ggtitle("Aggregate Throughput")
 
-ggplot(data, aes(x=tmp, y=pkt_ins, color=role)) + 
-coord_cartesian() +
-scale_y_continuous() + 
-geom_line() + xlab("Time") + 
-ggtitle("Packet Receiving Rate")
+p + geom_line(aes(x=tmp, y=pkt_ins, color=role)) + 
+ylab("packets") + ggtitle("Packet Receiving Rate")
 
-ggplot(data, aes(x=tmp, y=pkt_outs, color=role)) + 
-coord_cartesian() +
-scale_y_continuous() + 
-geom_line() + xlab("Time") + 
-ggtitle("Packet Sending Rate")
+p + geom_line(aes(x=tmp, y=pkt_outs, color=role)) + 
+ylab("packets") + ggtitle("Packet Sending Rate")
 
-ggplot(data, aes(x=tmp, y=pkts, color=role)) + 
-coord_cartesian() +
-scale_y_continuous() + 
-geom_line() + xlab("Time") + 
-ggtitle("Aggregate Packet Rate")
+p + geom_line(aes(x=tmp, y=pkts, color=role)) + 
+ylab("packets") + ggtitle("Aggregate Packet Rate")
 
 dev.off()
