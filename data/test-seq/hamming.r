@@ -10,7 +10,11 @@ df = read.csv(args[1], col.names=c('packetsize','hamming', 'client', 'server', '
 
 srv = read.csv(args[2], col.names=c('packetsize','hamming', 'client', 'server', 'lost'))
 
-ggplot(data=srv, aes(x=server)) + geom_line(aes(y=hamming)) + geom_point(aes(y=hamming)) + ylab("hamming distance") + xlab("server throughput (Mbps)") + ggtitle("Stress test with 2 clients and 2 servers")
+p <- ggplot(data=srv, aes(x=server))
+
+p + geom_line(aes(y=hamming)) + geom_point(aes(y=hamming)) + ylab("hamming distance") + xlab("server throughput (Mbps)") + ggtitle("Stress test with 2 clients and 2 servers")
+
+p + geom_line(aes(y=lost)) + geom_point(aes(y=lost)) + ylab("packet lost %") + xlab("server throughput (Mbps)") + ggtitle("Stress test with 2 clients and 2 servers")
 
 c <- ggplot(data=df, aes(x=client)) 
 
