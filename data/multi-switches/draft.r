@@ -1,15 +1,9 @@
-library("ggplot2")
+library('ggplot2')
 
-s = read.csv('single.txt', col.names=c('interface', 'bandwidth', 'lost'))
-
-c = read.csv('multicast.txt', col.names=c('interface', 'bandwidth', 'lost'))
+args<-commandArgs(TRUE)
 
 pdf('plot.pdf')
-
-ggplot(s, aes(x=bandwidth, y=lost, colour=interface)) + 
-geom_line(aes(group=interface)) + geom_point() + ggtitle("unicast")
-
-ggplot(c, aes(x=bandwidth, y=lost, colour=interface)) + 
-geom_line(aes(group=interface)) + geom_point() + ggtitle("multicast")
-
+s = read.csv(args[1], col.names=c('interface', 'throughput', 'lost'))
+ggplot(s, aes(x=throughput, y=lost, colour=interface)) + geom_point(aes(group=interface), size=3) 
 dev.off()
+
