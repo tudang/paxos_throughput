@@ -1,4 +1,5 @@
 digraph G {
+    splines=false;
     subgraph cluster0 {
         node [shape=box];
         br0;
@@ -27,11 +28,13 @@ digraph G {
     br0 -> br2;
     br0 -> br3;
     br0 -> br4;
-    br1 -> node91 [label="eth1",color="#b0b0b0"];
-    br2 -> node91 [label="eth2",color="#b0b0b0"];
-    br3 -> node91 [label="eth3",color="#b0b0b0"];
-    br1 -> node92 [label="eth1",color="#575756"];
-    br2 -> node92 [label="eth2",color="#575756"];
-    br3 -> node92 [label="eth3",color="#575756"];
+    br1 -> node91 [color="#b0b0b0"];
+    br2 -> node91 [color="#b0b0b0"];
+    br3 -> node91 [color="#b0b0b0"];
+    br4 -> node91 [color="#b0b0b0"];
+    br1 -> node90 [color="#575756"];
+    br2 -> node90 [color="#575756"];
+    br3 -> node90 [color="#575756"];
+    br4 -> node90 [color="#575756"];
     }
 }
