@@ -2,26 +2,33 @@ library('ggplot2')
 library('plyr')
 
 args <- commandArgs(TRUE)
-data <- read.csv(file=args[1], col.names=c('seq','cid', 'stime', 'atime', 'size'))
+df <- data.frame(seq=numeric(), cid=numeric(), size=numeric(), interface=character(), count=numeric(),
+                        latency=numeric(), interval=numeric(), throughput=numeric())
 
-data$time <- strptime(data$stime, "%H:%M:%S")
-op <- options(digits.secs=6)
-data$stime <- strptime(data$stime, "%H:%M:%OS")
-data$atime <- strptime(data$atime, "%H:%M:%OS")
-data$latency <- as.numeric(data$atime - data$stime) * 1000
+for (i in args) {
 
-s <- ddply(data, c('cid', 'time', 'size'), summarise, count=length(size), 
-            mean_lat=mean(latency))
-
-duration <- as.numeric(tail(data$atime,1) - head(data$stime,1))
-
-s$interval <- as.numeric(s$time - head(s$time, 1))
-s$throughput = s$count * (s$size * 8) / 10^6
-
+    data <- read.csv(file=i, col.names=c('seq','cid', 'send_time', 'interface', 'receive_time', 'size'))
+    
+    data$time <- strptime(data$send_time, "%H:%M:%S")
+    op <- options(digits.secs=6)
+    data$send_time <- strptime(data$send_time, "%H:%M:%OS")
+    data$receive_time <- strptime(data$receive_time, "%H:%M:%OS")
+    data$latency <- as.numeric(data$receive_time - data$send_time) * 1000
+    
+    s <- ddply(data, c('cid', 'time', 'size', 'interface'), summarise, count=length(size), 
+                latency=mean(latency))
+    
+    duration <- as.numeric(tail(data$receive_time,1) - head(data$send_time,1))
+    
+    s$interval <- as.numeric(s$time - head(s$time, 1))
+    s$throughput = s$count * (s$size * 8) / 10^6
+    
+    df <- rbind(df, s)
+}
 dir.create(file.path(".", "output"), showWarnings = FALSE)
 pdf('output/tcpdump.pdf')
 
-p <- ggplot(s, aes(x=interval, y=throughput)) + xlab('Time (s)') + ylab('Throughput (Mbps)')
-p + geom_line() + geom_point()
-ggplot(s, aes(x=interval, y=mean_lat)) + geom_line() + geom_point() + xlab('Time (s)') + ylab('Latency (ms)')
+ggplot(df, aes(x=interval, y=throughput, color=interface)) + xlab('Time (s)') + ylab('Throughput (Mbps)') +  geom_line() + geom_point()
+ggplot(df, aes(x=interval, y=latency, color=interface)) + geom_line() + geom_point() + xlab('Time (s)') + ylab('Latency (ms)')
+
 dev.off()
