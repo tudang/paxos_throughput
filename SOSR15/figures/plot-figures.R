@@ -22,7 +22,11 @@ plot_broadcast <- function() {
 }
 
 plot_max_tput <- function() {
-    net = c(887,888,890)
+    df <- read.csv(file="csv/summary.csv", col.names=c('host', 'size', 'count', 'latency', 
+                    'duration', 'throughput', 'lost'))
+    df <- subset(df, lost == 0)
+    net <- max(df$throughput)
+    #net = c(887,888,890)
     plain = c(128.3, 135.86)
     data = c(mean(net), mean(plain))
     names(data) <- c('NetPaxos', 'Basic Paxos')
@@ -35,7 +39,10 @@ plot_max_tput <- function() {
 }
 
 plot_netpaxos_tput <- function() {
-    net = read.csv("csv/netpaxos-latency.csv", header=F, col.names=c('latency'))
+    df <- read.csv(file="csv/summary.csv", col.names=c('host', 'size', 'count', 'latency', 
+                    'duration', 'throughput', 'lost'))
+    #net = read.csv("csv/netpaxos-latency.csv", header=F, col.names=c('latency'))
+    net = df
     reg = read.csv("csv/basicpaxos-latency.csv", header=F, col.names=c('latency'))
     a = mean(net$latency) / 10^3  #convert ms -> us
     b = mean(reg$latency)
@@ -51,10 +58,13 @@ dev.off()
 }
 
 plot_netpaxos_latency <- function() {
-    df <- read.csv(file="csv/netpaxos-tput-latency.csv", col.names=c('host','interface', 
-                        'size', 'count', 'latency', 'duration', 'throughput', 'lost'))
-    #Round throughput to mulplier of hunderds.
-    #df$throughput = round(df$throughput / 100) * 100
+    df <- read.csv(file="csv/summary.csv", col.names=c('host', 'size', 'count', 'latency', 
+                    'duration', 'throughput', 'lost'))
+    #Round throughput to nearest 50
+    df$throughput = 50.0 * floor((df$throughput/50.0)+0.5) 
+    df$host <- sub("eth[0-3].[1-4]", "server1", df$host)
+    df$host <- sub("eth[0-3].[5-8]", "server2", df$host)
+    #Convert latency from us to ms
     df$latency = df$latency / 10^3
     dfc <- summarySE(df, measurevar="latency", groupvars=c("throughput"))
     d = data.frame(
