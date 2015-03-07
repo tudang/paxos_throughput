@@ -29,8 +29,7 @@ for (i in args) {
 
 p <- ggplot(data=df, aes(x=time, group=outstanding, colour=factor(outstanding))) 
 p + facet_grid(. ~ proto) + geom_line(aes(y=mean_lat)) + ylab("latency (ms)") + ggtitle("5 learners, pkt-size 8KB")
-p + scale_y_continuous(limits = c(0,7000)) +  facet_grid(. ~ proto) + geom_line(aes(y=count)) + ylab("values/sec") + ggtitle("5 learners, pkt-size 8KB")
-
+#p + scale_y_continuous(limits = c(0,7000)) +  facet_grid(. ~ proto) + geom_line(aes(y=count)) + ylab("values/sec") + ggtitle("5 learners, pkt-size 8KB")
 p + scale_y_continuous(limits = c(0,1000)) +  facet_grid(. ~ proto) + geom_line(aes(y=Mbps)) + ylab("Mbps") + ggtitle("5 learners, pkt-size 8KB")
 
 dev.off()

@@ -23,5 +23,5 @@ awk -v column=1 -v value="$filename" '
         print $1","$2","$9;
     }
 ' > $server
-paste -d ',' $client $server > $2
+paste -d ',' $client $server > "{$filename}.csv"
 rm $client $server 
