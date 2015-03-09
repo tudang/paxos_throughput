@@ -27,7 +27,7 @@ plot_max_tput <- function() {
     df <- subset(df, lost == 0)
     net <- max(df$throughput)
     #net = c(887,888,890)
-    plain = c(128.3, 135.86)
+    plain = c(150, 150)
     data = c(mean(net), mean(plain))
     names(data) <- c('NetPaxos', 'Basic Paxos')
     pdf('figures/netpaxos-tput.pdf')
@@ -43,15 +43,16 @@ plot_netpaxos_tput <- function() {
                     'duration', 'throughput', 'lost'))
     #net = read.csv("csv/netpaxos-latency.csv", header=F, col.names=c('latency'))
     net = df
-    reg = read.csv("csv/basicpaxos-latency.csv", header=F, col.names=c('latency'))
+    reg = read.csv("csv/basic-latency.csv", header=F, col.names=c('latency'))
     a = mean(net$latency) / 10^3  #convert ms -> us
-    b = mean(reg$latency)
+    b = mean(reg$latency) / 10^3
+    print(b)
     latency <- c(a,b)
     names(latency) <- c('NetPaxos', 'Basic Paxos')
     
     pdf("figures/netpaxos-latency.pdf")
     op <- par(mar = c(4, 8, 4, 2) + 0.1)
-    barplot(latency, ylim=c(0,2.1), cex.lab=2.5, cex.axis=2.0, cex.names=2.0)
+    barplot(latency, ylim=c(0,0.9), cex.lab=2.5, cex.axis=2.0, cex.names=2.0) 
     title(ylab = "Latency (ms)", cex.lab = 2.5, line = 4.5)
     box()
 dev.off()
