@@ -119,21 +119,22 @@ plot_basic_netpaxos_latency <- function() {
     df <- rbind(df, x)
     }
     d = subset(df, proto == "NetPaxos" )
-    print(d)
     #Round throughput to nearest 50
     d$throughput = 25.0 * floor((d$throughput/25.0)+0.5) 
     pdf('figures/tput-vs-latency.pdf')
     dfc <- summarySE(d, measurevar="latency", groupvars=c("throughput"))
+    print(dfc)
     d = data.frame(
         x=dfc$throughput,
         y=dfc$latency,
         sd=dfc$sd
     )
-    op <- par(mar = c(7, 7, 3.5, 1.5) + 0.1)
-    plot(d$x, d$y, type="l", cex.axis = 1.5,
+    op <- par(mar = c(6.5, 7.5, 2.0, 2.0) + 0.1)
+    plot(d$x, d$y, type="l", cex.axis = 1.5, cex.lab=2,
          ylim=c(0,3.1),
          xlim=c(0,1000),
          ylab="",
+         lty=1,
          xlab="" )
     with (
         data = d,
@@ -141,21 +142,21 @@ plot_basic_netpaxos_latency <- function() {
     )
 
     d <- subset(df, proto == "Basic Paxos" )
-    print(d)
     #Round throughput to nearest 50
     d$throughput = 15.0 * floor((d$throughput/15.0)+0.5) 
     dfc <- summarySE(d, measurevar="latency", groupvars=c("throughput"))
+    print(dfc)
     d = data.frame(
         x=dfc$throughput,
         y=dfc$latency,
         sd=dfc$sd
     )
     par(new = TRUE)
-    plot(d$x, d$y, type="l", cex.axis = 1.4,
+    plot(d$x, d$y, type="l", cex.axis = 1.5,
          ylim=c(0,3.1),
          xlim=c(0,1000),
          ylab="",
-         col = "red",
+         lty=2,
          xaxt='n',
          yaxt='n',
          xlab="" )
@@ -166,12 +167,14 @@ plot_basic_netpaxos_latency <- function() {
     
 
     title(xlab="Learner Throughput (Mbps)",
-          ylab="Latency (ms)", cex.lab = 2.5, line = 4)
+          ylab="Latency (ms)", cex.lab = 2.0, line = 4)
     legend('topright',
     c("NetPaxos", "Basic Paxos"),
-    lty=1,
-    bty='n', 
-    col=c('black', 'red'))
+    cex = 1.5,
+    lty=c(1,2),
+    #bty='n', 
+    #col=c('black', 'red')
+    )
     dev.off()
 }
 dir.create(file.path(".", "figures"), showWarnings = FALSE)
