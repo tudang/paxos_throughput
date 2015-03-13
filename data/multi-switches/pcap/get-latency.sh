@@ -13,8 +13,8 @@ server="server.csv"
 strings $var | grep -o '[0-9]\{8\},[0-9],[0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\}.[0-9]\{6\}' >  $client
 grep ",1," $client > s1.csv
 grep ",2," $client > s2.csv
-LOST1=$(diff -u s1.csv ${DIR}/client1.csv | grep "[+-][0-9]" | wc -l)
-LOST2=$(diff -u s2.csv ${DIR}/client2.csv | grep "[+-][0-9]" | wc -l)
+LOST1=$(diff -u s1.csv ${DIR}/client1.csv | grep "^[+-].[0-9]" | wc -l)
+LOST2=$(diff -u s2.csv ${DIR}/client2.csv | grep "^[+-].[0-9]" | wc -l)
 TOTAL_LOST=$[$LOST1 + $LOST2]
 tcpdump -r $var |
 awk -v column=1 -v value="$filename" '

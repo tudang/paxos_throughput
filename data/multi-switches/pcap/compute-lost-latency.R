@@ -6,7 +6,7 @@ df <- data.frame(seq=numeric(), cid=numeric(), size=numeric(),
                     interface=character(), count=numeric(),
                     latency=numeric(), interval=numeric(), throughput=numeric())
 
-data <- read.csv(file=args[1], sep=",", col.names=c('seq','cid', 'send_time', 
+data <- read.csv(file=args[1], sep=",", header=F, col.names=c('seq','cid', 'send_time', 
                     'interface', 'receive_time', 'size'))
 #data$time <- strptime(data$receive_time, "%H:%M:%S")
 op <- options(digits.secs=6)
@@ -25,7 +25,7 @@ s$duration = round(duration,2)
 s$throughput = round(s$count * (s$size * 8) / 10^6 / duration)
 #df <- rbind(df, s)
 s <- subset(s, count > 1)
-s$lost = as.numeric(args[2]) * 100 / s$count
+s$lost = round((as.numeric(args[2]) * 100 / s$count), 5)
 print(head(s))
 write.table(s, append=T, file="output/summary.csv", sep="," , col.names=F,
        row.names=F, quote=F)
