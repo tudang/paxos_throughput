@@ -98,6 +98,8 @@ plot_netpaxos_loss <- function() {
     plot(d$x, d$y, type="l", cex.axis = 2.0,
          ylim=c(0,4.1),
          ylab="",
+         col='blue',
+         lwd=2,
          xlab="" )
     with (
         data = d,
@@ -123,7 +125,6 @@ plot_basic_netpaxos_latency <- function() {
     d$throughput = 25.0 * floor((d$throughput/25.0)+0.5) 
     pdf('figures/tput-vs-latency.pdf')
     dfc <- summarySE(d, measurevar="latency", groupvars=c("throughput"))
-    print(dfc)
     d = data.frame(
         x=dfc$throughput,
         y=dfc$latency,
@@ -135,6 +136,8 @@ plot_basic_netpaxos_latency <- function() {
          xlim=c(0,1000),
          ylab="",
          lty=1,
+         lwd=2,
+         col='blue',
          xlab="" )
     with (
         data = d,
@@ -145,7 +148,6 @@ plot_basic_netpaxos_latency <- function() {
     #Round throughput to nearest 50
     d$throughput = 15.0 * floor((d$throughput/15.0)+0.5) 
     dfc <- summarySE(d, measurevar="latency", groupvars=c("throughput"))
-    print(dfc)
     d = data.frame(
         x=dfc$throughput,
         y=dfc$latency,
@@ -157,6 +159,8 @@ plot_basic_netpaxos_latency <- function() {
          xlim=c(0,1000),
          ylab="",
          lty=2,
+         lwd=2,
+         col='red',
          xaxt='n',
          yaxt='n',
          xlab="" )
@@ -172,8 +176,9 @@ plot_basic_netpaxos_latency <- function() {
     c("NetPaxos", "Basic Paxos"),
     cex = 1.5,
     lty=c(1,2),
+    lwd=2,
     #bty='n', 
-    #col=c('black', 'red')
+    col=c('blue', 'red')
     )
     dev.off()
 }
