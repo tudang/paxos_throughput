@@ -19,10 +19,10 @@ latency_plot <- function() {
         lty=1, pch=4,
         xlab="", ylab="", 
         col=colors[1],
-        yaxp = c(0,5000,10),
+        yaxp = c(0,4,8),
         ylim=yrange, xlim=xrange, 
         cex.axis=1.5, lwd=3)
-    title(xlab="Messages / Second", ylab="Latency (us)", cex.lab=2.0, line=4)
+    title(xlab="Messages / Second", ylab="Latency (ms)", cex.lab=2.0, line=4)
     par(new=T)
     
     plot(x=net$PPS, y=net$NetPaxos,  type="b", xlab="", ylab="",
